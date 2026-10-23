@@ -118,4 +118,27 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });
   }
+
+  // 7. Committee Tab Switching (Executive, Advisors, General Members)
+  const tabButtons = document.querySelectorAll(".com-tab-btn");
+  tabButtons.forEach(btn => {
+    btn.addEventListener("click", () => {
+      const targetTab = btn.getAttribute("data-tab");
+      
+      // Update active state on tab buttons
+      tabButtons.forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+
+      // Hide all panels, show target panel
+      document.querySelectorAll(".tab-panel").forEach(panel => {
+        panel.classList.remove("active");
+      });
+
+      const activePanel = document.getElementById(`panel-${targetTab}`);
+      if (activePanel) {
+        activePanel.classList.add("active");
+      }
+    });
+  });
 });
+

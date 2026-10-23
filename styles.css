@@ -517,6 +517,309 @@ button, input, select, textarea {
 }
 
 /* ==========================================================================
+   COMMITTEE, ADVISORS & MEMBERS SECTION
+   ========================================================================== */
+.committee-tabs {
+  display: inline-flex;
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-full);
+  padding: 4px;
+  gap: 4px;
+  box-shadow: var(--shadow-subtle);
+}
+
+.com-tab-btn {
+  background: transparent;
+  border: none;
+  font-size: 0.88rem;
+  font-weight: 600;
+  padding: 0.5rem 1.25rem;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  color: var(--text-muted);
+  transition: all var(--transition);
+}
+
+.com-tab-btn:hover {
+  color: var(--text-main);
+}
+
+.com-tab-btn.active {
+  background: var(--brand-blue);
+  color: #FFF;
+  box-shadow: 0 2px 8px rgba(63, 88, 192, 0.25);
+}
+
+.tab-panel {
+  display: none;
+  animation: panelFadeIn 0.3s ease forwards;
+}
+
+.tab-panel.active {
+  display: block;
+}
+
+@keyframes panelFadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Key Leaders High Priority Row */
+.leadership-top-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.member-featured-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-md);
+  padding: 2rem;
+  box-shadow: var(--shadow-subtle);
+  border-top: 4px solid var(--brand-blue);
+  transition: all var(--transition);
+}
+
+.member-featured-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-hover);
+}
+
+.member-role-badge {
+  display: inline-block;
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: var(--radius-full);
+  letter-spacing: 0.04em;
+  margin-bottom: 0.85rem;
+}
+
+.president-badge {
+  background: #FEF3C7;
+  color: #92400E;
+}
+
+[data-theme="dark"] .president-badge {
+  background: rgba(245, 158, 11, 0.2);
+  color: #FBBF24;
+}
+
+.gs-badge {
+  background: var(--brand-blue-light);
+  color: var(--brand-blue);
+}
+
+.member-name {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--text-main);
+  margin-bottom: 0.3rem;
+  line-height: 1.3;
+}
+
+.member-dept {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  display: block;
+}
+
+.member-meta {
+  font-size: 0.8rem;
+  color: var(--text-caption);
+  margin-top: 0.5rem;
+  font-weight: 500;
+}
+
+/* Executive Officers Grid */
+.members-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1.25rem;
+  margin-bottom: 2rem;
+}
+
+.member-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  padding: 1.25rem 1.35rem;
+  box-shadow: var(--shadow-subtle);
+  transition: all var(--transition);
+}
+
+.member-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--brand-blue);
+  box-shadow: var(--shadow-hover);
+}
+
+.role-chip {
+  display: inline-block;
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: var(--brand-blue);
+  background: var(--brand-blue-light);
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+  margin-bottom: 0.5rem;
+}
+
+.member-card h4 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-bottom: 0.25rem;
+}
+
+.member-card .unit {
+  font-size: 0.78rem;
+  color: var(--text-caption);
+}
+
+/* Sub-Roster (Executive Members) */
+.sub-roster-wrap {
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-md);
+  padding: 1.5rem 1.75rem;
+  margin-top: 1rem;
+}
+
+.sub-roster-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-bottom: 1rem;
+}
+
+.member-pills-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.member-pill {
+  background: var(--bg-subtle);
+  border: 1px solid var(--border-light);
+  padding: 0.55rem 1.15rem;
+  border-radius: var(--radius-full);
+  font-size: 0.88rem;
+  color: var(--text-body);
+  transition: all var(--transition);
+}
+
+.member-pill.highlight {
+  border-color: var(--brand-blue);
+  background: var(--brand-blue-light);
+  color: var(--brand-blue);
+  font-weight: 600;
+}
+
+/* Advisory Board (উপদেষ্টামণ্ডলী) */
+.advisors-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.advisor-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-md);
+  padding: 2.25rem 1.75rem;
+  text-align: center;
+  box-shadow: var(--shadow-subtle);
+  transition: all var(--transition);
+}
+
+.advisor-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-hover);
+  border-color: var(--brand-blue);
+}
+
+.advisor-icon {
+  font-size: 2.5rem;
+  line-height: 1;
+  margin-bottom: 1rem;
+}
+
+.advisor-designation {
+  display: inline-block;
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: var(--brand-blue);
+  background: var(--brand-blue-light);
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
+  margin-bottom: 0.75rem;
+}
+
+.advisor-name {
+  font-size: 1.18rem;
+  font-weight: 800;
+  color: var(--text-main);
+  margin-bottom: 0.35rem;
+  line-height: 1.35;
+}
+
+.advisor-dept {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+}
+
+.advisor-univ {
+  font-size: 0.78rem;
+  color: var(--text-caption);
+  display: block;
+  margin-top: 0.35rem;
+}
+
+/* General Members */
+.general-members-intro {
+  margin-bottom: 1.5rem;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+.general-members-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1rem;
+}
+
+.gm-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  padding: 0.85rem 1.25rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.92rem;
+  color: var(--text-main);
+  box-shadow: var(--shadow-subtle);
+  transition: all var(--transition);
+}
+
+.gm-item:hover {
+  border-color: var(--brand-blue);
+  transform: translateY(-1px);
+}
+
+.gm-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--brand-blue);
+  flex-shrink: 0;
+}
+
+/* ==========================================================================
    OFFICIAL FACEBOOK POSTS GRID
    ========================================================================== */
 .fb-posts-grid {
@@ -857,6 +1160,137 @@ button, input, select, textarea {
 .btn-rsvp:hover {
   background: var(--brand-blue);
   color: #FFF;
+}
+
+/* ==========================================================================
+   CONTACT SECTION
+   ========================================================================== */
+.contact-card-box {
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-lg);
+  padding: 3.5rem;
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 3.5rem;
+  box-shadow: var(--shadow-subtle);
+}
+
+.contact-title {
+  font-size: 1.85rem;
+  font-weight: 800;
+  color: var(--text-main);
+  line-height: 1.3;
+  margin-bottom: 1rem;
+}
+
+.contact-desc {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin-bottom: 2rem;
+}
+
+.contact-details-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.cd-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.cd-icon {
+  font-size: 1.4rem;
+  line-height: 1.2;
+}
+
+.cd-label {
+  display: block;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--text-caption);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 2px;
+}
+
+.cd-val {
+  font-size: 0.95rem;
+  color: var(--text-main);
+  font-weight: 600;
+}
+
+.cd-val:hover {
+  color: var(--brand-blue);
+}
+
+.chat-promo-card {
+  background: var(--bg-subtle);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  padding: 2.25rem 2rem;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: center;
+}
+
+.chat-promo-card h4 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-bottom: 0.5rem;
+}
+
+.chat-promo-card p {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  margin-bottom: 1.5rem;
+}
+
+.btn-wa-full {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  background: #25D366;
+  color: #FFF !important;
+  font-size: 0.92rem;
+  font-weight: 700;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius-full);
+  margin-bottom: 0.75rem;
+  transition: all var(--transition);
+  box-shadow: 0 4px 12px rgba(37, 211, 102, 0.25);
+}
+
+.btn-wa-full:hover {
+  background: #1EBE5D;
+  transform: translateY(-1px);
+}
+
+.btn-fb-full-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  background: #1877F2;
+  color: #FFF !important;
+  font-size: 0.92rem;
+  font-weight: 700;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius-full);
+  transition: all var(--transition);
+  box-shadow: 0 4px 12px rgba(24, 119, 242, 0.25);
+}
+
+.btn-fb-full-box:hover {
+  background: #166FE5;
+  transform: translateY(-1px);
 }
 
 /* ==========================================================================
