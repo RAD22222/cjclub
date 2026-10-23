@@ -157,9 +157,16 @@
             <span class="section-pill" data-bn="ফেসবুক পেজ থেকে সংগৃহীত" data-en="FROM OUR FACEBOOK PAGE">ফেসবুক পেজ থেকে সংগৃহীত</span>
             <h2 class="section-heading" data-bn="সাম্প্রতিক পোস্ট ও অফিশিয়াল আপডেট" data-en="Recent Posts &amp; Official Updates">সাম্প্রতিক পোস্ট ও অফিশিয়াল আপডেট</h2>
           </div>
-          <a href="https://www.facebook.com/profile.php?id=61566989609382" target="_blank" rel="noopener noreferrer" class="link-view-all">
-            <span>ফেসবুকে সব পোস্ট দেখুন &rarr;</span>
-          </a>
+          <div class="posts-header-actions">
+            <!-- Mobile Tap Arrows -->
+            <div class="mobile-slider-arrows">
+              <button type="button" class="slider-btn" id="postPrevBtn" aria-label="Previous Post">&#8592;</button>
+              <button type="button" class="slider-btn" id="postNextBtn" aria-label="Next Post">&#8594;</button>
+            </div>
+            <a href="https://www.facebook.com/profile.php?id=61566989609382" target="_blank" rel="noopener noreferrer" class="link-view-all">
+              <span>ফেসবুকে সব পোস্ট দেখুন &rarr;</span>
+            </a>
+          </div>
         </div>
 
         <div class="fb-posts-grid">
@@ -266,6 +273,13 @@
             </div>
           </article>
 
+        </div>
+
+        <!-- Mobile Dots for Posts Carousel -->
+        <div class="mobile-dots" id="postDots">
+          <span class="m-dot active" onclick="scrollPostTo(0)"></span>
+          <span class="m-dot" onclick="scrollPostTo(1)"></span>
+          <span class="m-dot" onclick="scrollPostTo(2)"></span>
         </div>
 
       </div>

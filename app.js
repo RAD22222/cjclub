@@ -153,14 +153,77 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   };
 
-  // Add click listeners to all tab buttons as well
-  document.querySelectorAll(".com-tab-btn").forEach(btn => {
-    btn.addEventListener("click", (e) => {
-      e.preventDefault();
-      const targetTab = btn.getAttribute("data-tab");
-      window.switchCommitteeTab(targetTab);
+  // 8. Mobile Posts Slider (Tap Navigation - Not Auto)
+  const postsGrid = document.querySelector(".fb-posts-grid");
+  const postPrevBtn = document.getElementById("postPrevBtn");
+  const postNextBtn = document.getElementById("postNextBtn");
+  const postDots = document.querySelectorAll("#postDots .m-dot");
+
+  window.scrollPostTo = function(index) {
+    if (!postsGrid) return;
+    const cards = postsGrid.querySelectorAll(".fb-post-card");
+    if (cards[index]) {
+      cards[index].scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+      updateDots(index);
+    }
+  };
+
+  function updateDots(activeIdx) {
+    postDots.forEach((dot, idx) => {
+      dot.classList.toggle("active", idx === activeIdx);
     });
-  });
+  }
+
+  if (postsGrid && postPrevBtn && postNextBtn) {
+    postNextBtn.addEventListener("click", () => {
+      const card = postsGrid.querySelector(".fb-post-card");
+      const scrollStep = card ? card.offsetWidth + 14 : 280;
+      postsGrid.scrollBy({ left: scrollStep, behavior: "smooth" });
+    });
+
+    postPrevBtn.addEventListener("click", () => {
+      const card = postsGrid.querySelector(".fb-post-card");
+      const scrollStep = card ? card.offsetWidth + 14 : 280;
+      postsGrid.scrollBy({ left: -scrollStep, behavior: "smooth" });
+    });
+
+    postsGrid.addEventListener("scroll", () => {
+      const cards = postsGrid.querySelectorAll(".fb-post-card");
+      const center = postsGrid.scrollLeft + postsGrid.offsetWidth / 2;
+      cards.forEach((card, idx) => {
+        if (card.offsetLeft <= center && (card.offsetLeft + card.offsetWidth) >= center) {
+          updateDots(idx);
+        }
+      });
+    }, { passive: true });
+  }
+
+  // 9. Mobile Wings Auto Scroll (Continuous auto-scroll on mobile only)
+  const wingsGrid = document.querySelector(".wings-grid");
+  if (wingsGrid) {
+    let isWingsPaused = false;
+    let wingsDirection = 1;
+
+    wingsGrid.addEventListener("touchstart", () => { isWingsPaused = true; }, { passive: true });
+    wingsGrid.addEventListener("touchend", () => {
+      setTimeout(() => { isWingsPaused = false; }, 2000);
+    }, { passive: true });
+
+    function autoScrollWings() {
+      if (window.innerWidth <= 768 && !isWingsPaused && wingsGrid) {
+        const maxScroll = wingsGrid.scrollWidth - wingsGrid.clientWidth;
+        if (maxScroll > 10) {
+          if (wingsGrid.scrollLeft >= maxScroll - 2) {
+            wingsGrid.scrollLeft = 0; // Wrap smoothly back to start
+          } else {
+            wingsGrid.scrollLeft += 1; // 1px smooth continuous drift
+          }
+        }
+      }
+      requestAnimationFrame(autoScrollWings);
+    }
+    requestAnimationFrame(autoScrollWings);
+  }
 });
 
 // Also define on window immediately in case DOM loads fast
