@@ -11,6 +11,8 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+  <!-- Upper Scrolling Progress Bar -->
+  <div id="scrollProgressBar" class="scroll-progress-bar" aria-hidden="true"></div>
 
   <!-- Minimal Top Navigation -->
   <header class="site-header" id="header">
@@ -121,6 +123,11 @@
                 <span class="proof-number">NASA</span>
                 <span class="proof-label" data-bn="স্পেস অ্যাপস পার্টনার" data-en="Space Apps Partner">স্পেস অ্যাপস পার্টনার</span>
               </div>
+            </div>
+
+            <div class="scroll-down-hint" onclick="document.getElementById('posts').scrollIntoView({behavior: 'smooth'})">
+              <span>নিচে স্ক্রোল করুন</span>
+              <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 10l5 5 5-5"/></svg>
             </div>
 
           </div>

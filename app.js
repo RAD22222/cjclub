@@ -4,6 +4,19 @@
  */
 
 document.addEventListener("DOMContentLoaded", () => {
+  // 0. Upper Scroll Progress Bar Handler
+  const progressBar = document.getElementById("scrollProgressBar");
+  if (progressBar) {
+    const updateProgress = () => {
+      const winScroll = document.documentElement.scrollTop || document.body.scrollTop;
+      const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      const scrolled = height > 0 ? (winScroll / height) * 100 : 0;
+      progressBar.style.width = `${scrolled}%`;
+    };
+    window.addEventListener("scroll", updateProgress, { passive: true });
+    updateProgress();
+  }
+
   // 1. Toast Notification Utility
   const toastEl = document.getElementById("toastNotification");
   let toastTimer = null;

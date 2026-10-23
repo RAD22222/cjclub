@@ -104,6 +104,19 @@ button, input, select, textarea {
   padding: 0 1.5rem;
 }
 
+/* Scroll Progress Bar at the Upper Side */
+.scroll-progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  width: 0%;
+  background: linear-gradient(90deg, var(--brand-blue), #818CF8, #60A5FA);
+  z-index: 9999;
+  transition: width 0.08s linear;
+  box-shadow: 0 0 10px rgba(99, 102, 241, 0.7);
+}
+
 /* ==========================================================================
    MINIMAL SITE HEADER
    ========================================================================== */
@@ -406,6 +419,28 @@ button, input, select, textarea {
   width: 1px;
   height: 32px;
   background-color: var(--border-light);
+}
+
+.scroll-down-hint {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin-top: 1.25rem;
+  padding: 0.45rem 1rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  background: var(--bg-subtle);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+.scroll-down-hint:hover {
+  color: var(--brand-blue);
+  border-color: var(--brand-blue);
+  transform: translateY(2px);
 }
 
 /* Hero Right: Clean Logo Display */
@@ -1750,65 +1785,182 @@ button, input, select, textarea {
     font-size: 0.88rem;
   }
 
-  /* Hero Section */
+  /* Hero Section Mobile Optimization */
   .hero-section {
-    padding: 1.75rem 0 2rem 0;
+    padding: 1.25rem 0 1.75rem 0;
   }
 
   .hero-inner {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-  }
-
-  .hero-title {
-    font-size: 2rem;
-    line-height: 1.2;
-    margin-bottom: 0.75rem;
-  }
-
-  .hero-description {
-    font-size: 0.92rem;
-    line-height: 1.6;
-    margin-bottom: 1.25rem;
-  }
-
-  .hero-actions {
-    gap: 0.65rem;
+    display: flex;
     flex-direction: column;
-    align-items: stretch;
+    gap: 1.15rem;
   }
 
-  .btn-hero-primary,
-  .btn-hero-whatsapp {
+  /* Make logo appear at the upper side of the hero */
+  .hero-visual-block {
+    order: -1;
+    width: 100%;
+    display: flex;
     justify-content: center;
-    padding: 0.75rem 1.25rem;
-    font-size: 0.9rem;
-  }
-
-  .hero-badge-strip {
-    margin-top: 1.5rem;
-    padding-top: 1.25rem;
-    gap: 1rem;
-  }
-
-  .hb-stat {
-    font-size: 1.25rem;
-  }
-
-  .hb-label {
-    font-size: 0.7rem;
-  }
-
-  .hero-official-logo {
-    width: 130px;
-    height: 130px;
   }
 
   .logo-display-card {
-    padding: 1.5rem 1rem;
+    padding: 0.85rem 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    text-align: left;
+    width: 100%;
+    max-width: 360px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-md);
+    box-shadow: 0 4px 14px rgba(63, 88, 192, 0.08);
   }
 
-  /* Committee Section Mobile Optimization */
+  .hero-official-logo {
+    width: 58px;
+    height: 58px;
+    margin-bottom: 0;
+    flex-shrink: 0;
+  }
+
+  .logo-caption {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .logo-caption strong {
+    font-size: 0.92rem;
+    line-height: 1.2;
+    color: var(--text-main);
+  }
+
+  .logo-caption span {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+  }
+
+  .logo-badge-pill {
+    font-size: 0.65rem;
+    padding: 2px 7px;
+    margin-top: 3px;
+    background: var(--brand-blue-light);
+    color: var(--brand-blue);
+  }
+
+  .hero-meta-pill {
+    margin-bottom: 0.5rem;
+    font-size: 0.68rem;
+  }
+
+  .hero-title {
+    font-size: 1.75rem;
+    line-height: 1.22;
+    margin-bottom: 0.5rem;
+  }
+
+  .hero-description {
+    font-size: 0.88rem;
+    line-height: 1.55;
+    margin-bottom: 1rem;
+  }
+
+  /* Make buttons smaller and compact on mobile */
+  .hero-actions {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    margin-bottom: 1rem;
+  }
+
+  .btn-primary,
+  .btn-secondary,
+  .btn-fb-outline {
+    flex: 1 1 calc(50% - 0.45rem);
+    min-width: 120px;
+    padding: 0.5rem 0.75rem !important;
+    font-size: 0.78rem !important;
+    font-weight: 700;
+    border-radius: var(--radius-full);
+    text-align: center;
+    justify-content: center;
+    gap: 4px;
+    white-space: nowrap;
+  }
+
+  .btn-fb-outline {
+    flex: 1 1 100%;
+  }
+
+  /* Compact Proof Stats Strip */
+  .hero-proof-stats {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.65rem 0.75rem;
+    margin-top: 0.75rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-md);
+  }
+
+  .proof-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    flex: 1;
+  }
+
+  .proof-number {
+    font-size: 0.95rem;
+    font-weight: 800;
+    color: var(--brand-blue);
+    line-height: 1.1;
+  }
+
+  .proof-label {
+    font-size: 0.62rem;
+    color: var(--text-muted);
+    line-height: 1.15;
+    margin-top: 2px;
+  }
+
+  .proof-divider {
+    width: 1px;
+    height: 22px;
+    background: var(--border-light);
+  }
+
+  /* Scroll Down Indicator on Mobile */
+  .scroll-down-hint {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    margin-top: 0.75rem;
+    padding: 0.35rem 0.85rem;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    background: var(--bg-subtle);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-full);
+    cursor: pointer;
+    width: fit-content;
+    align-self: center;
+    animation: gentleBounce 2s infinite ease-in-out;
+  }
+
+  @keyframes gentleBounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(3px); }
+  }
+
+  /* Committee Section: 2 on a row on mobile */
   .committee-tabs {
     width: 100%;
     display: flex;
@@ -1822,56 +1974,144 @@ button, input, select, textarea {
     flex: 1;
     text-align: center;
     white-space: nowrap;
-    font-size: 0.78rem;
-    padding: 0.45rem 0.6rem;
+    font-size: 0.75rem;
+    padding: 0.45rem 0.5rem;
   }
 
   .leadership-top-grid {
-    grid-template-columns: 1fr;
-    gap: 1rem;
-    margin-bottom: 1.25rem;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 0.5rem !important;
+    margin-bottom: 0.75rem !important;
   }
 
   .member-featured-card {
-    padding: 1.25rem 1rem;
+    padding: 0.85rem 0.65rem !important;
+    border-top-width: 3px !important;
+  }
+
+  .member-role-badge {
+    font-size: 0.62rem !important;
+    padding: 2px 6px !important;
+    margin-bottom: 0.35rem !important;
   }
 
   .member-name {
-    font-size: 1.15rem;
+    font-size: 0.88rem !important;
+    line-height: 1.25 !important;
+    margin-bottom: 0.2rem !important;
+  }
+
+  .member-dept {
+    font-size: 0.68rem !important;
+    line-height: 1.2 !important;
+  }
+
+  .member-meta {
+    font-size: 0.62rem !important;
+    margin-top: 0.3rem !important;
   }
 
   .members-cards-grid {
-    grid-template-columns: 1fr;
-    gap: 0.75rem;
-    margin-bottom: 1.25rem;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 0.5rem !important;
+    margin-bottom: 1rem !important;
   }
 
   .member-card {
-    padding: 1rem 1.1rem;
+    padding: 0.75rem 0.65rem !important;
+  }
+
+  .member-card .role-chip {
+    font-size: 0.62rem !important;
+    padding: 2px 6px !important;
+    margin-bottom: 0.3rem !important;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+  }
+
+  .member-card h4 {
+    font-size: 0.82rem !important;
+    line-height: 1.2 !important;
+    margin-bottom: 0.2rem !important;
+  }
+
+  .member-card .unit {
+    font-size: 0.65rem !important;
+    line-height: 1.15 !important;
+  }
+
+  .sub-roster-wrap {
+    padding: 1rem 0.85rem !important;
+  }
+
+  .sub-roster-title {
+    font-size: 0.85rem !important;
+    margin-bottom: 0.65rem !important;
   }
 
   .member-pills-row {
-    flex-direction: column;
-    gap: 0.5rem;
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 0.45rem !important;
   }
 
   .member-pill {
-    padding: 0.5rem 0.85rem;
-    font-size: 0.82rem;
+    padding: 0.45rem 0.55rem !important;
+    font-size: 0.72rem !important;
+    text-align: center !important;
   }
 
   .advisors-grid {
-    grid-template-columns: 1fr;
-    gap: 0.85rem;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 0.5rem !important;
   }
 
   .advisor-card {
-    padding: 1.25rem 1rem;
+    padding: 0.95rem 0.65rem !important;
+  }
+
+  .advisor-icon {
+    font-size: 1.6rem !important;
+    margin-bottom: 0.35rem !important;
+  }
+
+  .advisor-designation {
+    font-size: 0.62rem !important;
+    padding: 2px 6px !important;
+    margin-bottom: 0.3rem !important;
+  }
+
+  .advisor-name {
+    font-size: 0.85rem !important;
+    line-height: 1.25 !important;
+    margin-bottom: 0.2rem !important;
+  }
+
+  .advisor-dept {
+    font-size: 0.68rem !important;
+    line-height: 1.2 !important;
+  }
+
+  .advisor-univ {
+    display: none !important;
   }
 
   .general-members-grid {
-    grid-template-columns: 1fr;
-    gap: 0.65rem;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 0.45rem !important;
+  }
+
+  .gm-item {
+    padding: 0.55rem 0.65rem !important;
+    font-size: 0.76rem !important;
+    gap: 0.4rem !important;
+  }
+
+  .gm-dot {
+    width: 6px !important;
+    height: 6px !important;
   }
 
   /* Posts Grid */
