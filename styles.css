@@ -552,12 +552,16 @@ button, input, select, textarea {
 }
 
 .tab-panel {
-  display: none;
-  animation: panelFadeIn 0.3s ease forwards;
+  display: none !important;
 }
 
 .tab-panel.active {
-  display: block;
+  display: block !important;
+  animation: panelFadeIn 0.3s ease forwards;
+}
+
+.mobile-drawer-ctas {
+  display: none;
 }
 
 @keyframes panelFadeIn {
@@ -1537,18 +1541,19 @@ button, input, select, textarea {
 }
 
 /* ==========================================================================
-   RESPONSIVE DESIGN
+   RESPONSIVE DESIGN & MOBILE OVERHAUL
    ========================================================================== */
 @media (max-width: 992px) {
   .hero-inner {
     grid-template-columns: 1fr;
-    gap: 2.5rem;
+    gap: 2rem;
   }
   .fb-posts-grid {
     grid-template-columns: 1fr;
   }
   .split-about-layout {
     grid-template-columns: 1fr;
+    gap: 2rem;
   }
   .wings-grid {
     grid-template-columns: repeat(2, 1fr);
@@ -1560,28 +1565,430 @@ button, input, select, textarea {
 }
 
 @media (max-width: 768px) {
-  .nav-menu {
-    display: none;
+  /* 1. Upper Dock (Header) Mobile Perfection */
+  .header-container {
+    height: 58px;
+    padding: 0 1rem;
+    gap: 0.5rem;
   }
+
+  .header-brand {
+    gap: 0.55rem;
+    min-width: 0;
+    max-width: 62%;
+    overflow: hidden;
+  }
+
+  .brand-logo-img {
+    width: 32px;
+    height: 32px;
+    flex-shrink: 0;
+  }
+
+  .brand-text {
+    min-width: 0;
+    overflow: hidden;
+  }
+
+  .brand-name-en {
+    font-size: 0.85rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.2;
+  }
+
+  .brand-sub {
+    font-size: 0.65rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.1;
+  }
+
+  .header-actions {
+    gap: 0.35rem;
+    flex-shrink: 0;
+  }
+
+  /* Hide overflowing header CTA buttons from mobile top dock */
+  .btn-whatsapp-header,
+  .btn-header-join {
+    display: none !important;
+  }
+
+  .btn-lang {
+    padding: 3px 8px;
+    font-size: 0.72rem;
+  }
+
+  .btn-icon {
+    padding: 4px;
+  }
+
   .btn-mobile-menu {
     display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+    width: 34px;
+    height: 34px;
+    padding: 6px;
+    background: var(--bg-subtle);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
   }
-  .wings-grid {
-    grid-template-columns: 1fr;
+
+  .btn-mobile-menu span {
+    display: block;
+    width: 18px;
+    height: 2px;
+    background: var(--text-main);
+    border-radius: 2px;
   }
-  .workshop-row {
+
+  /* Mobile Dropdown Navigation Drawer */
+  .nav-menu {
+    display: none;
+    position: absolute;
+    top: 58px;
+    left: 0;
+    width: 100%;
+    background: var(--bg-card);
+    border-bottom: 1px solid var(--border-light);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.14);
+    padding: 1.25rem 1.25rem 1.5rem 1.25rem;
+    z-index: 1000;
+  }
+
+  .nav-menu.menu-open {
+    display: block !important;
+    animation: slideDownMobile 0.22s ease-out forwards;
+  }
+
+  @keyframes slideDownMobile {
+    from { opacity: 0; transform: translateY(-8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .nav-list {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.25rem;
+    margin-bottom: 1rem;
+  }
+
+  .nav-item {
+    display: block;
+    padding: 0.65rem 0.85rem;
+    font-size: 0.95rem;
+    border-radius: var(--radius-sm);
+    color: var(--text-main);
+  }
+
+  .nav-item:hover, .nav-item:active {
+    background: var(--brand-blue-light);
+    color: var(--brand-blue);
+  }
+
+  .mobile-drawer-ctas {
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+    padding-top: 0.85rem;
+    border-top: 1px solid var(--border-light);
+  }
+
+  .btn-drawer-join {
+    display: block;
+    text-align: center;
+    background: var(--brand-blue);
+    color: #FFF !important;
+    font-weight: 700;
+    padding: 0.75rem 1rem;
+    border-radius: var(--radius-full);
+    font-size: 0.9rem;
+  }
+
+  .btn-drawer-wa {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    background: #25D366;
+    color: #FFF !important;
+    font-weight: 700;
+    padding: 0.75rem 1rem;
+    border-radius: var(--radius-full);
+    font-size: 0.9rem;
+  }
+
+  /* 2. Spacing & Gaps Optimization Across Entire Mobile Layout */
+  .content-container {
+    padding: 0 1rem;
+  }
+
+  .section-block {
+    padding: 2.25rem 0;
+  }
+
+  .section-title-wrap {
+    margin-bottom: 1.5rem;
+    gap: 0.75rem;
     flex-direction: column;
     align-items: flex-start;
-    gap: 1rem;
   }
-  .form-row {
+
+  .section-heading {
+    font-size: 1.5rem;
+    line-height: 1.3;
+  }
+
+  .section-subtext {
+    font-size: 0.88rem;
+  }
+
+  /* Hero Section */
+  .hero-section {
+    padding: 1.75rem 0 2rem 0;
+  }
+
+  .hero-inner {
     grid-template-columns: 1fr;
+    gap: 1.5rem;
   }
-  .form-wrapper-clean {
-    padding: 1.75rem;
+
+  .hero-title {
+    font-size: 2rem;
+    line-height: 1.2;
+    margin-bottom: 0.75rem;
   }
-  .form-btn-row {
+
+  .hero-description {
+    font-size: 0.92rem;
+    line-height: 1.6;
+    margin-bottom: 1.25rem;
+  }
+
+  .hero-actions {
+    gap: 0.65rem;
     flex-direction: column;
     align-items: stretch;
   }
+
+  .btn-hero-primary,
+  .btn-hero-whatsapp {
+    justify-content: center;
+    padding: 0.75rem 1.25rem;
+    font-size: 0.9rem;
+  }
+
+  .hero-badge-strip {
+    margin-top: 1.5rem;
+    padding-top: 1.25rem;
+    gap: 1rem;
+  }
+
+  .hb-stat {
+    font-size: 1.25rem;
+  }
+
+  .hb-label {
+    font-size: 0.7rem;
+  }
+
+  .hero-official-logo {
+    width: 130px;
+    height: 130px;
+  }
+
+  .logo-display-card {
+    padding: 1.5rem 1rem;
+  }
+
+  /* Committee Section Mobile Optimization */
+  .committee-tabs {
+    width: 100%;
+    display: flex;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: 4px;
+    gap: 4px;
+  }
+
+  .com-tab-btn {
+    flex: 1;
+    text-align: center;
+    white-space: nowrap;
+    font-size: 0.78rem;
+    padding: 0.45rem 0.6rem;
+  }
+
+  .leadership-top-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .member-featured-card {
+    padding: 1.25rem 1rem;
+  }
+
+  .member-name {
+    font-size: 1.15rem;
+  }
+
+  .members-cards-grid {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .member-card {
+    padding: 1rem 1.1rem;
+  }
+
+  .member-pills-row {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .member-pill {
+    padding: 0.5rem 0.85rem;
+    font-size: 0.82rem;
+  }
+
+  .advisors-grid {
+    grid-template-columns: 1fr;
+    gap: 0.85rem;
+  }
+
+  .advisor-card {
+    padding: 1.25rem 1rem;
+  }
+
+  .general-members-grid {
+    grid-template-columns: 1fr;
+    gap: 0.65rem;
+  }
+
+  /* Posts Grid */
+  .fb-posts-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .fb-post-card {
+    padding: 1.25rem;
+  }
+
+  /* About Section */
+  .split-about-layout {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .pillar-mini-list {
+    gap: 1rem;
+  }
+
+  /* Wings */
+  .wings-grid {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  .wing-item-card {
+    padding: 1.25rem;
+  }
+
+  /* Workshops */
+  .workshops-list {
+    gap: 0.75rem;
+  }
+
+  .workshop-row {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 1.15rem;
+    gap: 0.85rem;
+  }
+
+  .btn-rsvp {
+    width: 100%;
+    text-align: center;
+  }
+
+  /* Contact Section */
+  .contact-card-box {
+    grid-template-columns: 1fr;
+    padding: 1.5rem 1.2rem;
+    gap: 1.5rem;
+  }
+
+  .contact-title {
+    font-size: 1.4rem;
+  }
+
+  .chat-promo-card {
+    padding: 1.25rem 1rem;
+  }
+
+  /* Form */
+  .form-wrapper-clean {
+    padding: 1.5rem 1.15rem;
+  }
+
+  .form-title {
+    font-size: 1.4rem;
+  }
+
+  .form-intro {
+    margin-bottom: 1.25rem;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  .form-col {
+    margin-bottom: 0.75rem;
+  }
+
+  .form-btn-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+  }
+
+  .btn-submit {
+    width: 100%;
+  }
+
+  /* Footer */
+  .site-footer {
+    padding: 2.5rem 0 1.5rem 0;
+  }
+
+  .footer-inner {
+    flex-direction: column;
+    gap: 2rem;
+    padding-bottom: 1.75rem;
+  }
+
+  .footer-links-side {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .footer-bottom-line {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+    padding-top: 1.25rem;
+  }
 }
+

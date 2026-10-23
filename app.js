@@ -96,49 +96,77 @@ document.addEventListener("DOMContentLoaded", () => {
   const mobileMenuBtn = document.getElementById("mobileMenuBtn");
   const navMenu = document.getElementById("navMenu");
   if (mobileMenuBtn && navMenu) {
-    mobileMenuBtn.addEventListener("click", () => {
-      const isVisible = navMenu.style.display === "flex";
-      navMenu.style.display = isVisible ? "none" : "flex";
-      navMenu.style.flexDirection = "column";
-      navMenu.style.position = "absolute";
-      navMenu.style.top = "70px";
-      navMenu.style.left = "0";
-      navMenu.style.width = "100%";
-      navMenu.style.background = "var(--bg-card)";
-      navMenu.style.padding = "1.5rem";
-      navMenu.style.borderBottom = "1px solid var(--border-light)";
-      navMenu.style.boxShadow = "var(--shadow-hover)";
+    mobileMenuBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      navMenu.classList.toggle("menu-open");
     });
 
+    // Close mobile menu when clicking outside
+    document.addEventListener("click", (e) => {
+      if (navMenu.classList.contains("menu-open") && !navMenu.contains(e.target) && e.target !== mobileMenuBtn) {
+        navMenu.classList.remove("menu-open");
+      }
+    });
+
+    // Close when clicking any nav link
     navMenu.querySelectorAll("a").forEach(link => {
       link.addEventListener("click", () => {
-        if (window.innerWidth <= 768) {
-          navMenu.style.display = "none";
-        }
+        navMenu.classList.remove("menu-open");
       });
     });
   }
 
   // 7. Committee Tab Switching (Executive, Advisors, General Members)
-  const tabButtons = document.querySelectorAll(".com-tab-btn");
-  tabButtons.forEach(btn => {
-    btn.addEventListener("click", () => {
-      const targetTab = btn.getAttribute("data-tab");
-      
-      // Update active state on tab buttons
-      tabButtons.forEach(b => b.classList.remove("active"));
-      btn.classList.add("active");
+  window.switchCommitteeTab = function(targetTab) {
+    if (!targetTab) return;
 
-      // Hide all panels, show target panel
-      document.querySelectorAll(".tab-panel").forEach(panel => {
-        panel.classList.remove("active");
-      });
-
-      const activePanel = document.getElementById(`panel-${targetTab}`);
-      if (activePanel) {
-        activePanel.classList.add("active");
+    // Update active tab buttons
+    document.querySelectorAll(".com-tab-btn").forEach(btn => {
+      if (btn.getAttribute("data-tab") === targetTab) {
+        btn.classList.add("active");
+      } else {
+        btn.classList.remove("active");
       }
+    });
+
+    // Switch panels
+    document.querySelectorAll(".tab-panel").forEach(panel => {
+      panel.classList.remove("active");
+    });
+
+    const activePanel = document.getElementById(`panel-${targetTab}`);
+    if (activePanel) {
+      activePanel.classList.add("active");
+    }
+  };
+
+  // Add click listeners to all tab buttons as well
+  document.querySelectorAll(".com-tab-btn").forEach(btn => {
+    btn.addEventListener("click", (e) => {
+      e.preventDefault();
+      const targetTab = btn.getAttribute("data-tab");
+      window.switchCommitteeTab(targetTab);
     });
   });
 });
+
+// Also define on window immediately in case DOM loads fast
+window.switchCommitteeTab = function(targetTab) {
+  if (!targetTab) return;
+  document.querySelectorAll(".com-tab-btn").forEach(btn => {
+    if (btn.getAttribute("data-tab") === targetTab) {
+      btn.classList.add("active");
+    } else {
+      btn.classList.remove("active");
+    }
+  });
+  document.querySelectorAll(".tab-panel").forEach(panel => {
+    panel.classList.remove("active");
+  });
+  const activePanel = document.getElementById(`panel-${targetTab}`);
+  if (activePanel) {
+    activePanel.classList.add("active");
+  }
+};
+
 
