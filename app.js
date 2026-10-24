@@ -92,16 +92,115 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // 5. Membership Application Form Submission
+  // 5. Membership Application Form Submission -> Google Sheets (Secured)
+  const GOOGLE_SHEET_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbyjZC0sF7zTjG6NQTJ6ixsjacwH6Uh9p__ZiHgBYo-KSM11ecscxESx27wR8AnfQ9Vv/exec";
   const clubApplyForm = document.getElementById("clubApplyForm");
+
+  // Input Sanitizer: Strips control characters, trims, and enforces max length
+  function sanitizeInput(val, maxLen = 100) {
+    if (typeof val !== "string") return "";
+    return val.replace(/[\u0000-\u001F\u007F-\u009F]/g, "").trim().slice(0, maxLen);
+  }
+
   if (clubApplyForm) {
-    clubApplyForm.addEventListener("submit", (e) => {
+    clubApplyForm.addEventListener("submit", async (e) => {
       e.preventDefault();
-      const applicantName = document.getElementById("appName").value;
-      const wing = document.getElementById("appWing").value;
-      
-      clubApplyForm.reset();
-      showToast(`অভিনন্দন ${applicantName}! সিজে ক্লাবের মেম্বারশিপ আবেদন সফলভাবে জমা হয়েছে।`);
+
+      // Bot Protection 1: Honeypot trap check
+      const honeypot = document.getElementById("appHoneypot");
+      if (honeypot && honeypot.value.trim() !== "") {
+        console.warn("Spam bot submission blocked.");
+        clubApplyForm.reset();
+        return;
+      }
+
+      // Bot Protection 2: Rate Limiting Cooldown (25s cooldown between submissions)
+      const lastSubmit = sessionStorage.getItem("cj_last_submit_time");
+      const now = Date.now();
+      if (lastSubmit && (now - Number(lastSubmit)) < 25000) {
+        const remaining = Math.ceil((25000 - (now - Number(lastSubmit))) / 1000);
+        showToast(`অনুগ্রহ করে ${remaining} সেকেন্ড পর আবার চেষ্টা করুন।`);
+        return;
+      }
+
+      const submitBtn = clubApplyForm.querySelector(".btn-submit");
+      const originalBtnText = submitBtn ? submitBtn.textContent : "আবেদন জমা দিন";
+
+      const nameInput = document.getElementById("appName");
+      const phoneInput = document.getElementById("appPhone");
+      const emailInput = document.getElementById("appEmail");
+      const studentIdInput = document.getElementById("appStudentId");
+      const deptInput = document.getElementById("appDept");
+      const sessionSelect = document.getElementById("appSession");
+      const wingSelect = document.getElementById("appWing");
+      const noteInput = document.getElementById("appNote");
+
+      const rawPhone = phoneInput ? phoneInput.value.replace(/\s+/g, "") : "";
+      const rawEmail = emailInput ? emailInput.value.trim() : "";
+
+      // Validate Phone: must be 11 digits (e.g., 017XXXXXXXX) or with +88 prefix
+      const bdPhoneRegex = /^(\+?88)?01[3-9]\d{8}$/;
+      if (!bdPhoneRegex.test(rawPhone)) {
+        showToast("সঠিক ১১ ডিজিটের মোবাইল নম্বর দিন (যেমন: 017XXXXXXXX)");
+        if (phoneInput) phoneInput.focus();
+        return;
+      }
+
+      // Validate Email
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+      if (!emailRegex.test(rawEmail)) {
+        showToast("সঠিক ইমেইল ঠিকানা প্রদান করুন");
+        if (emailInput) emailInput.focus();
+        return;
+      }
+
+      const wingText = wingSelect && wingSelect.selectedIndex >= 0 
+        ? sanitizeInput(wingSelect.options[wingSelect.selectedIndex].text, 100) 
+        : "";
+
+      const payload = {
+        name: sanitizeInput(nameInput ? nameInput.value : "", 80),
+        phone: sanitizeInput(rawPhone, 16),
+        email: sanitizeInput(rawEmail, 100),
+        studentId: sanitizeInput(studentIdInput ? studentIdInput.value : "", 25),
+        dept: sanitizeInput(deptInput ? deptInput.value : "", 80),
+        session: sanitizeInput(sessionSelect ? sessionSelect.value : "", 20),
+        wing: wingText,
+        note: sanitizeInput(noteInput ? noteInput.value : "", 800)
+      };
+
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = "জমা হচ্ছে... (Submitting...)";
+      }
+
+      try {
+        const response = await fetch(GOOGLE_SHEET_WEBAPP_URL, {
+          method: "POST",
+          headers: {
+            "Content-Type": "text/plain;charset=utf-8"
+          },
+          body: JSON.stringify(payload)
+        });
+
+        const result = await response.json();
+        if (result && result.status === "success") {
+          sessionStorage.setItem("cj_last_submit_time", Date.now().toString());
+          clubApplyForm.reset();
+          showToast(`অভিনন্দন ${payload.name}! আপনার আবেদন সফলভাবে গুগল শিটে জমা হয়েছে।`);
+        } else {
+          console.error("Apps Script Error:", result);
+          showToast("গুগল শিটে ডেটা যুক্ত হতে পারেনি। শিটের নাম যাচাই করুন।");
+        }
+      } catch (err) {
+        console.error("Form submission failed:", err);
+        showToast("আবেদন জমা দিতে সমস্যা হয়েছে। অনুগ্রহ করে আবার চেষ্টা করুন।");
+      } finally {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = originalBtnText;
+        }
+      }
     });
   }
 
